@@ -1,0 +1,23 @@
+node_modules/
+dist/
+.vite/
+*.local
+.DS_Store
+.env
+.env.*
+.vercel
+
+# Raw source dataset (provided separately as player_data.zip, ~31 MB).
+# The generated bundle under public/data and public/maps IS committed.
+player_data/
+
+# Assignment brief
+*.pdf
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Visual-verification renders (dev aid; regenerate with scripts/verify_*.py)
+scripts/_verify/
