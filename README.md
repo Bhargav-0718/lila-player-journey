@@ -7,7 +7,7 @@ storm catches them, and which parts of the map nobody ever enters.
 Built from 5 days of production telemetry — **89,104 events, 796 matches,
 1,242 player journeys, 3 maps**.
 
-### 🔗 Live: _<deployed URL>_
+### 🔗 Live: **https://lila-player-journey-swart.vercel.app**
 
 ### 🎥 Walkthrough: _<video link>_
 
@@ -125,7 +125,8 @@ already sets the framework, build command, output directory and long-lived cache
 headers for `/data` and `/maps`. Netlify, Cloudflare Pages and GitHub Pages work
 equally well; nothing here is Vercel-specific.
 
-Vercel redeploys automatically on push to `main`.
+This submission is deployed at **https://lila-player-journey-swart.vercel.app**,
+which redeploys automatically on push to `main`.
 
 ## Sharing a specific view
 
@@ -141,11 +142,10 @@ a colleague to exactly what you are looking at:
 | `heat` `paths` `markers` `dead` | `?dead=1&heat=0` | layer on/off |
 | `t` | `?t=180` | start the timeline at 180s |
 
-```
-?map=Lockdown&heat=0&dead=1&markers=0     the dead-ground view from INSIGHTS #3
-?map=GrandRift&heatmap=loot               loot density over Mine Pit
-?match=fbbc5d02&heat=0                    the one 16-participant match
-```
+- [Dead ground on Lockdown](https://lila-player-journey-swart.vercel.app/?map=Lockdown&heat=0&dead=1&markers=0) — the view behind INSIGHTS #3
+- [Loot density on Grand Rift](https://lila-player-journey-swart.vercel.app/?map=GrandRift&heatmap=loot) — Mine Pit dominates
+- [Kill zones across Ambrose Valley](https://lila-player-journey-swart.vercel.app/?heatmap=kills)
+- [The one 16-participant match](https://lila-player-journey-swart.vercel.app/?match=fbbc5d02&heat=0) — press play
 
 This is one-way: the URL seeds the view, and interacting with the tool does not
 rewrite it.
