@@ -5,7 +5,13 @@
   "framework": "vite",
   "headers": [
     {
-      "source": "/(data|maps)/(.*)",
+      "source": "/data/:path*",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/maps/:path*",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
