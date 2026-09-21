@@ -9,7 +9,7 @@ Built from 5 days of production telemetry — **89,104 events, 796 matches,
 
 ### 🔗 Live: **https://lila-player-journey-swart.vercel.app**
 
-### 🎥 Walkthrough: _<video link>_
+### 🧭 [Guided walkthrough](#guided-walkthrough) — every feature in eight steps, ~5 minutes
 
 📄 [ARCHITECTURE.md](ARCHITECTURE.md) — design decisions, coordinate mapping, assumptions, trade-offs
 📄 [INSIGHTS.md](INSIGHTS.md) — three findings, with the numbers behind them
@@ -127,6 +127,110 @@ equally well; nothing here is Vercel-specific.
 
 This submission is deployed at **https://lila-player-journey-swart.vercel.app**,
 which redeploys automatically on push to `main`.
+
+## Guided walkthrough
+
+Eight steps, about five minutes, covering every feature. Each one is a link that
+opens the exact view described — click it, read the paragraph, move on. No setup
+and nothing to install.
+
+---
+
+**1 · The opening view** — [open](https://lila-player-journey-swart.vercel.app/)
+
+Ambrose Valley, all five days, foot-traffic heatmap. The tool opens on something
+meaningful before you touch a control: Ambrose is the primary map and carries 68%
+of all rows.
+
+Look at the heatmap shape. It is not a blob — it resolves the **road network**.
+That is the coordinate projection being correct: player positions land on the
+roads the art actually draws. The header strip carries the totals the whole tool
+is built from: 89,104 events · 796 matches · 1,242 journeys · 248 players · 91 bots.
+
+**2 · Journeys, and telling players from bots** — [open](https://lila-player-journey-swart.vercel.app/?heat=0&paths=1&markers=0)
+
+Heatmap off, raw journey paths on. **Cyan is a human player, violet is a bot**,
+with bots drawn thinner and dimmer so they recede. Bots outnumber humans heavily,
+and at whole-map scale this is a hairball — which is exactly why the default view
+is a heatmap and paths come on when you narrow to a match.
+
+Untick **Bots** in the Actors panel and the map thins out dramatically. That gap
+is the subject of INSIGHTS #1.
+
+**3 · Event markers** — [open](https://lila-player-journey-swart.vercel.app/?heat=0&paths=0)
+
+Paths and heatmap off, markers only. Six event types, each a distinct **shape as
+well as colour** so they survive a greyscale screenshot or colour-vision
+deficiency:
+
+★ killed a player · ✕ died to a player · ▲ killed a bot · ▼ died to a bot ·
+⬡ died to the storm · ◆ looted an item
+
+Markers are sized against rarity, not frequency: loot is 12,885 events and drawn
+small, the 39 storm deaths and 6 PvP kills are drawn large. Uniform sizing would
+bury the interesting events under the common ones. Hover any marker for the event,
+actor type, and time into the match.
+
+**4 · Filtering** — [open](https://lila-player-journey-swart.vercel.app/?map=GrandRift&heat=0&paths=0)
+
+Three independent filters that compose: **map** (three buttons, each showing its
+event count), **date** (any subset of the five days — selecting Feb 14 warns that
+collection stopped at 15:01, so you do not misread a partial day as a collapse),
+and **match**.
+
+The match list is sorted by participant count, not by id. That is deliberate:
+93% of matches recorded a single participant, so an unsorted list would open on
+an empty-feeling match and the tool would look broken.
+
+**5 · Timeline playback** — [open](https://lila-player-journey-swart.vercel.app/?match=fbbc5d02&heat=0)
+
+The one 16-participant match. Selecting a match turns paths on automatically and
+scopes the whole right-hand panel to it.
+
+Press **play**. Trails grow from each spawn and fade behind the playhead; speed
+runs 1× to 8× and the trail length is adjustable. Getting this working required
+catching that the `ts` column is Unix **seconds** stored in a millisecond-typed
+field — read literally, every match in this dataset lasts 0.4 seconds. Corrected,
+this one runs 8:43.
+
+The timeline also works with no match selected, where it scrubs *match-relative*
+time across every match at once: "where is everyone three minutes in?"
+
+**6 · Heatmap metrics** — [kill zones](https://lila-player-journey-swart.vercel.app/?heatmap=kills) · [death zones](https://lila-player-journey-swart.vercel.app/?heatmap=deaths) · [loot density](https://lila-player-journey-swart.vercel.app/?map=GrandRift&heatmap=loot)
+
+Four metrics over the same geometry. Loot density on **Grand Rift** is the clearest
+single view in the tool — that minimap carries printed place names, and the hotspot
+sits squarely on **Mine Pit** while the outer quarters stay cold. Independent
+confirmation that the projection is right, in the art's own labels.
+
+The heatmap deliberately ignores the event-type checkboxes: hiding loot markers to
+declutter should not also erase the loot-density overlay.
+
+**7 · Dead ground** — [open](https://lila-player-journey-swart.vercel.app/?map=Lockdown&heat=0&dead=1&markers=0)
+
+The most actionable view here, and the basis of INSIGHTS #3. Red cells are
+**playable ground nobody has ever entered**. The ocean is correctly excluded — the
+analysis region is derived from the telemetry itself rather than from the raw
+image, because measured against the whole square minimap the answer is ~40% and
+mostly a statement about how much of the picture is water. See ARCHITECTURE.md,
+assumption 5.
+
+Lockdown shows a continuous red ring around the coast plus the **northern port
+complex with the bridges** — finished, high-detail content that no player has
+entered in five days.
+
+**8 · The stats panel**
+
+Visible throughout, on the right. Everything recomputes against the current
+filters, so any number you can see is a number you can paste into a ticket.
+
+**Combat mix** is the one to look at. Across the whole dataset it reads
+**0.19% PvP** — 6 player-vs-player events against 3,115 against bots. Narrow to a
+single match and it usually reads 0.00%. That reading is what led to INSIGHTS #1,
+and to the finding underneath it: only **5 of 796 matches ever contained two
+humans**.
+
+---
 
 ## Sharing a specific view
 
