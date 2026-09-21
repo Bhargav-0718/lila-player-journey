@@ -21,3 +21,7 @@ __pycache__/
 
 # Visual-verification renders (dev aid; regenerate with scripts/verify_*.py)
 scripts/_verify/
+
+
+# Stale local scratch from an earlier recorder run (frames now go to the OS temp dir)
+scripts/_video/
