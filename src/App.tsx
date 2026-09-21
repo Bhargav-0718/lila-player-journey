@@ -24,7 +24,10 @@ export default function App() {
         const wanted = readInitialState().matchId
         if (wanted) {
           const ix = idx.matches.findIndex((m) => m.id.startsWith(wanted))
-          if (ix >= 0) useFilters.getState().selectMatch(ix)
+          // Set the index directly rather than going through selectMatch,
+          // which clears the playhead -- that would discard a `?t=` seed
+          // before it was ever shown.
+          if (ix >= 0) useFilters.getState().setMatchIxFromId(ix)
         }
       })
       .catch((e: Error) => setFatal(e.message))

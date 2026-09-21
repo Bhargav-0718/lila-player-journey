@@ -35,18 +35,21 @@ export function readInitialState(search = window.location.search): InitialState 
 
   const metricValid = metric !== null && METRICS.includes(metric)
   const time = q.get('t')
+  const match = q.get('match')
 
   return {
     // Ambrose Valley is the primary map and carries 68% of all rows.
     mapId: map && MAPS.includes(map) ? map : 'AmbroseValley',
     dates: (q.get('dates') ?? '').split(',').filter(Boolean),
-    matchId: q.get('match'),
+    matchId: match,
     layers: {
       // The aggregate view opens as a heatmap rather than 800 overlapping
       // polylines: at whole-map scale the hairball hides the minimap it is
       // drawn on. Paths switch on automatically with a match selection, where
       // individual routes are the point.
-      paths: on('paths', false),
+      // A link to a specific match is a link to its routes, so paths default
+      // on there, matching what selecting a match in the UI does.
+      paths: on('paths', match !== null),
       markers: on('markers', true),
       heatmap: on('heat', true),
       deadzone: on('dead', false),
