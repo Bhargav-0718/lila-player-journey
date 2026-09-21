@@ -7,7 +7,7 @@ storm catches them, and which parts of the map nobody ever enters.
 Built from 5 days of production telemetry — **89,104 events, 796 matches,
 1,242 player journeys, 3 maps**.
 
-### 🔗 Live: **https://lila-player-journey.vercel.app**
+### 🔗 Live: _<deployed URL>_
 
 ### 🎥 Walkthrough: _<video link>_
 
@@ -125,9 +125,7 @@ already sets the framework, build command, output directory and long-lived cache
 headers for `/data` and `/maps`. Netlify, Cloudflare Pages and GitHub Pages work
 equally well; nothing here is Vercel-specific.
 
-The live deployment for this submission is
-https://lila-player-journey.vercel.app — it redeploys automatically on push
-to `main`.
+Vercel redeploys automatically on push to `main`.
 
 ## Sharing a specific view
 
